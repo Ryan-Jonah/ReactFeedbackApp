@@ -1,4 +1,4 @@
-function Header(props) { //Catching text property from <Header text="Hello World!"/> {props.text} can also be used
+function Header(props) { //Catching text property from <Header text="Hello World!"/> {text} can also be used
     const HeaderStyles = {
         backgroundColor: props.bgColour,
         color: props.textColour
