@@ -1,36 +1,42 @@
-function App() {
-    //Component variables
-    const title = 'Blog Post'
-    const body = 'This is my blog post'
-    const comments = [
-        {id: 1, text: 'Comment 1'},
-        {id: 2, text: 'Comment 2'},
-        {id: 3, text: 'Comment 3'}
-    ]
-    const showComments = true
-    const commentBlock = (
-        <div className='comments'>
-            <h3>Comments ({comments.length})</h3>
-            <ul>
-                {comments.map((comment, index) => (
-                    <li key={index}>{comment.text}</li>
-                ))}
-            </ul>
-        </div> 
-    )
+import PropTypes from 'prop-types'
+import Header from "./components/Header"
+import FeedbackList from "./components/FeedbackList"
+import FeedbackData from "./data/feedbackData"
+import FeedbackStats from './components/FeedbackStats'
+import { useState } from 'react'
 
-    const loading = false
-    if(loading) return <h1>Loading...</h1>
+function App() {
+    const [feedback, setFeedback] = useState(FeedbackData)
+
+    const deleteFeedback = (id) => {
+        if(window.confirm('Are you sure you want to delete this item?'))
+        setFeedback(feedback.filter((item) => item.id !== id))
+    }
 
     return (
-        //Cannot use class in JSX
+    <>
+        <Header/>
+            {/* Cannot use class in JSX */}
         <div className='container'>
-            <h1>{title}</h1>
-            <p>{body}</p>
+            <FeedbackStats feedback={feedback}/>
+            <FeedbackList feedback={feedback} handleDelete={deleteFeedback}/>
+        </div> 
+    </> // Using fragment to enclose multipe tags (<> Content </>)
 
-            {/* Similar to terinary without the else clause */}
-            {showComments && commentBlock}
 
-        </div> // Can also use fragment to enclose multipe tags (<> Content </>)
     )
-} export default App
+} 
+
+//Used when no tag set in <Header />
+Header.defaultProps = {
+    bgColour: 'rgba(0,0,0,0.4)',
+    textColour: '#FF6A95'
+}
+
+//Sets the data type of the Header properties
+Header.propTypes = {
+    text: PropTypes.string,
+    
+}
+
+export default App
